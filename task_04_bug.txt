@@ -1,0 +1,37 @@
+======================================================================
+RAPPORT DE DÉBOGAGE : Tâche 4 - Débogage avec le module Logging
+======================================================================
+
+1. Le problème constaté
+-------------------------------------
+Le programme devait calculer la moyenne des valeurs de capteurs valides.
+Pour les données fournies, la somme des valeurs valides était de 60.0 
+répartie sur 3 capteurs valides. La moyenne attendue était de 20.0.
+Pourtant, le script initial affichait : "Average valid value: 15.0".
+
+2. Analyse des logs
+--------------------------------------------------
+L'exécution du script avec le niveau INFO a généré les messages suivants :
+• INFO:accepted (pour les capteurs valides A-1, A-2, A-3)
+• WARNING:ignored (pour le capteur invalide avec id vide)
+• INFO:final valid_value_sum=60.0 processed_count=4 average=15.0
+
+Grâce à la ligne finale de log, le problème est devenu évident : le 
+compteur 'processed_count' valait 4 au lieu de 3. L'enregistrement 
+invalide était donc comptabilisé dans le total des éléments.
+
+3.  La solution
+-----------------------------------
+L'instruction d'incrémentation du compteur ('processed_count += 1') 
+était positionnée à la fin de la boucle principale, en dehors de la 
+structure conditionnelle. Elle s'exécutait donc pour chaque ligne lue.
+
+J'ai résolu le bug en déplaçant cette ligne à l'intérieur du bloc `if` 
+qui valide l'enregistrement :
+-> Code corrigé :
+   if is_valid_record(record):
+       valid_value_sum += value
+       processed_count += 1
+
+Après cette modification, le compteur enregistre la bonne valeur (3) 
+et le programme affiche le résultat correct : "Average valid value: 20.0".

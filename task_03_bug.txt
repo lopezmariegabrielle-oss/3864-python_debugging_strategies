@@ -1,0 +1,34 @@
+======================================================================
+RAPPORT DE DÉBOGAGE   : Tâche 3 - Suivi du flux de données
+======================================================================
+
+1. Le problème constaté
+-------------------------------------
+Pour un panier d'achat ayant un sous-total de 31.80 $ et une réduction 
+textuelle de "10", le programme affichait le résultat : 
+"Final total: -286.2".
+
+2. Suivi des données avec print
+----------------------------------------------------------
+Des instructions print() ciblées ont été ajoutées dans la fonction 
+principale de calcul 'compute_final_total' pour observer l'évolution 
+des variables :
+• Le sous-total était correct (31.8).
+• Le taux extrait (rate) était de 10.0 au lieu de 0.10.
+• L'application du discount générait la valeur négative : 31.8 * (1 - 10) = -286.2.
+
+Le problème ne venait donc pas de la fonction de calcul final, mais de la 
+fonction chargée de transformer le texte en taux décimal.
+
+3. La solution
+-----------------------------------
+La fonction 'parse_discount_rate' convertissait bien la chaîne de caractères 
+en nombre flottant, mais omettait de diviser ce pourcentage pour obtenir 
+un taux décimal :
+-> Code erroné : return value
+
+J'ai corrigé le bug à sa source en appliquant la division par 100 :
+-> Code corrigé : return value / 100
+
+Après nettoyage des instructions de débogage, le programme se comporte 
+correctement et affiche le montant attendu : "Final total: 28.62".

@@ -1,0 +1,21 @@
+======================================================================
+RAPPORT DE DÉBOGAGE : Tâche 5 - Débogage défensif et Validation
+======================================================================
+
+1. Le problème constaté
+-------------------------------------
+Le script initial plantait avec une erreur "ValueError: invalid literal 
+for int()" dès que la chaîne de caractères fournie contenait un élément 
+non numérique (comme "invalid"). 
+De plus, si aucun score n'était valide, le programme risquait de provoquer 
+une erreur "ZeroDivisionError".
+
+2. La solution
+-----------------------------------
+Le manque de validation des données laissait le cycle de vie du programme 
+à la merci de la qualité des entrées utilisateur.
+
+J'ai réécrit les fonctions de manière défensive. Désormais, le passage 
+d'une chaîne contenant des anomalies est géré proprement : les éléments 
+incorrects sont signalés à l'écran, le calcul se poursuit sur les données 
+saines restantes, et le programme se termine avec succès (Moyenne: 91.67, Band: A).
