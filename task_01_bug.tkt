@@ -1,0 +1,29 @@
+======================================================================
+RAPPORT DE DÉBOGAGE : Tâche 1 - Analyse logique avec print()
+======================================================================
+
+1. Le problème constaté
+-------------------------------------
+Le programme s'exécutait sans planter, mais il renvoyait un résultat 
+incorrect : "OK readings: 2" au lieu de 3. Il oubliait de compter 
+la valeur 50 qui était pourtant égale au seuil.
+
+2. L'utilisation de print
+----------------------------------------------------
+J'ai ajouté une instruction print() temporaire dans la boucle 
+pour inspecter l'état des variables à chaque passage :
+print(f"Valeur: {value}, Seuil: {threshold}, Est-ce OK ? {passes}")
+
+Grâce à ça j'ai vu que pour la valeur 50, le programme 
+répond "False" au lieu de "True".
+
+3. La solution
+-----------------------------------
+Dans la fonction "reading_is_ok", l'opérateur utilisé était "<" (strictement inférieur). 
+Le programme faisait donc l'inverse de la consigne.
+
+J'ai corrigé la logique en remplaçant "<" par ">=" (supérieur ou égal) :
+Ancien code : return value < threshold
+Nouveau code : return value >= threshold
+
+Après correction et nettoyage du print(), le programme affiche le bon résultat (3)

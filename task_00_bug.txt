@@ -1,0 +1,29 @@
+======================================================================
+RAPPORT DE DÉBOGAGE : Erreur de type dans le calcul des capteurs
+======================================================================
+
+1. CE QUI A PLANTE
+---------------------------------
+Lors de l'exécution du script, Python s'est arrêté avec l'erreur :
+"TypeError: unsupported operand type(s) for +=: 'int' and 'str'"
+à la ligne : running_sum += value
+
+2. POURQUOI SA A PLANTE
+-------------------------------------------
+La fonction `load_today_batch()` renvoie des données textuelles entre guillemets, 
+comme ceci : ["12", "5", "7"]. Pour Python, ce sont des chaînes de caractères (str) 
+et non des nombres.
+
+Le programme a planté parce qu'on ne peut pas additionner mathématiquement 
+un nombre entier (int) avec du texte (str). Python a essayé de faire : 0 + "12".
+
+3. LA SOLUTION APPLIQUEE
+----------------------------
+Pour corriger le problème j'ai modifié la ligne de calcul dans la fonction 
+"accumulate_readings()" en utilisant la fonction "int()".
+
+Ancien code : running_sum += value
+Nouveau code : running_sum += int(value)
+
+Cela force Python à transformer le texte "12" en vrai nombre 12 juste avant 
+de faire l'addition. Le programme fonctionne maintenant correctement et affiche 24.
